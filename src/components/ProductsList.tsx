@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {getProductsPerPage} from "../services/ProductsService";
+import {getProductById, getProductsPerPage} from "../services/ProductsService";
 import Product from "./Product";
 import Paginator from "./Paginator";
 
@@ -30,13 +30,20 @@ function ProductsList({query}: IQuery) {
         setIsLoading(false);
     }
 
-    useEffect(() => {
-        getProductsPerPage(handleData, currentPage);
-    }, [currentPage]);
+    const setFilteredData = (result: { data: [] }) => {
+        setProducts(result.data);
+        setNumberOfPages(1);
+    }
 
-    // useEffect(() => {
-    //     getProductsPerPage(handleData, query);
-    // }, [query]);
+    useEffect(() => {
+        if (query === "") {
+            getProductsPerPage(handleData, currentPage);
+        } else {
+            getProductById(parseInt(query), setFilteredData);
+        }
+
+    }, [currentPage, query]);
+
 
     return (
         <div>

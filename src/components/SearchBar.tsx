@@ -11,11 +11,12 @@ function SearchBar({onQuery}: Props) {
     const handleChange = (event: React.FormEvent<HTMLInputElement>) => {
         const formattedQuery = event.currentTarget.value.replace(/\D/g, '')
         setQuery((formattedQuery));
-        onQuery(formattedQuery);
+        // onQuery(formattedQuery);
     }
 
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
+        onQuery(query);
     }
     return (
         <form action="" onSubmit={handleSubmit}>

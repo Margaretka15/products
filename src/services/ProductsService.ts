@@ -14,6 +14,7 @@ export function getProductsPerPage(callback: Function, currentPage: number) {
         .then((response) => {
             const data = response.data;
             callback(data);
+            console.log(data)
 
         })
         .catch(error => console.log(error))
@@ -28,7 +29,7 @@ export function getProductById(id: number, callback: Function) {
     })
         .then((response) => {
             const data = response.data;
-            callback(data);
+            callback({data: [data.data]});
 
         })
         .catch(error => console.log(error))
