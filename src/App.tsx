@@ -1,26 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './App.css';
+import ProductsList from "./components/ProductsList";
+import SearchBar from "./components/SearchBar";
+import ProductDetails from "./components/ProductDetails";
+
+interface ISelectedIDContext {
+    selectedId: number,
+    setSelectedId: React.Dispatch<React.SetStateAction<number>>
+    isShowingModal: boolean
+    setIsShowingModal: React.Dispatch<React.SetStateAction<boolean>>
 }
 
+export const SelectedIdContext = React.createContext<ISelectedIDContext | null>(null);
+
+function App() {
+    const [selectedId, setSelectedId] = useState(0);
+    const [isShowingModal, setIsShowingModal] = useState(false);
+    const selectedIdContextValue: ISelectedIDContext = {selectedId, setSelectedId, isShowingModal, setIsShowingModal};
+    const [query, setQuery] = useState("");
+
+    return (
+        <div className="App">
+
+            <SearchBar onQuery={setQuery}/>
+            <SelectedIdContext.Provider value={selectedIdContextValue}>
+                <ProductDetails/>
+                <ProductsList query={query}/>
+            </SelectedIdContext.Provider>
+
+        </div>
+    );
+}
 export default App;
