@@ -25,6 +25,7 @@ function Paginator({onClick, current, numberOfPages}: Props) {
         }
     }
     // odpowiednie wyświetlanie strzałek
+    // to do: naprawić zepsute strzałki po odświeżeniu ;)
     useEffect(() => {
         if (current === 1) {
             setIsFirst(true);

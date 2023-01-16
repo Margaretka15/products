@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {TextField} from "@mui/material";
 
 type Props = {
-    onQuery: React.Dispatch<React.SetStateAction<string>>
+    onQuery: React.Dispatch<React.SetStateAction<number>>
 }
 
 function SearchBar({onQuery}: Props) {
@@ -16,7 +16,7 @@ function SearchBar({onQuery}: Props) {
 
     const handleSubmit = (event: React.SyntheticEvent) => {
         event.preventDefault();
-        onQuery(query);
+        onQuery(parseInt(query) | 0);
     }
     return (
         <form action="" onSubmit={handleSubmit}>

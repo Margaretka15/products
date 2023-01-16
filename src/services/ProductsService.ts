@@ -19,7 +19,7 @@ export function getProductsPerPage(currentPage: number, callback: Function) {
         .catch(error => error.response);
 }
 
-export function getProductById(id: number, handleResult: Function, handleError: Function) {
+export function getProductById(id: number, handleResult: Function) {
 
     axios.get(baseString, {
         params: {
@@ -33,7 +33,7 @@ export function getProductById(id: number, handleResult: Function, handleError: 
         })
         .catch(error => {
             if (error.response) {
-                handleError(error.response);
+                // handleError(error.response);
                 console.log(error.response)
             }
         })

@@ -14,7 +14,6 @@ function Product(product: IProduct) {
         }
     }
     return (
-
         <ListItem sx={{backgroundColor: color}} onClick={handleClick}>
             <ListItemText primary={name}
             secondary={`${year} ${pantoneValue}`}/>

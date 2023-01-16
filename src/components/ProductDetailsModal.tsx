@@ -15,7 +15,7 @@ const style = {
 };
 
 
-function ProductDetails() {
+function ProductDetailsModal() {
 
     const context = useContext(SelectedIdContext);
 
@@ -46,4 +46,4 @@ function ProductDetails() {
 
 }
 
-export default ProductDetails;
+export default ProductDetailsModal;
