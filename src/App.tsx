@@ -47,25 +47,28 @@ function App() {
     const handleData = (result: { total_pages: number, data: [] }) => {
         setProducts(result.data);
         setNumberOfPages(result.total_pages);
+        console.log(result.total_pages)
         setIsLoading(false);
+    }
+    const handleIdRequest = (result: { data: [] }) => {
+        handleData({total_pages: 1, data: result.data});
     }
 
     const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-        setSearchParams({id: filter.toString(), page: currentPage.toString()})
-
+        setSearchParams(filter ? {id: filter.toString()} : {page: currentPage.toString()})
     }, [currentPage, filter])
 
     useEffect(() => {
         getProductsPerPage(parseInt(searchParams.get("page") as string), handleData);
     }, [pageNumberFromURL]);
 
-     useEffect(() => {
-         if(searchParams.get("id") === "0") {
-             getProductsPerPage(parseInt(searchParams.get("page") as string), handleData);
-         }
-        getProductById(parseInt(searchParams.get("id") as string), handleData);
+    useEffect(() => {
+        if (!searchParams.get("id")) {
+            getProductsPerPage(parseInt(searchParams.get("page") as string), handleData);
+        }
+        getProductById(parseInt(searchParams.get("id") as string), handleIdRequest);
     }, [idFromUrl]);
 
 
@@ -80,8 +83,6 @@ function App() {
                     </Box> : <ProductsList data={products}/>}
 
                     <Paginator onClick={setCurrentPage} current={currentPage} numberOfPages={numberOfPages}/>
-                    {idFromUrl}---
-                    {pageNumberFromURL}
                 </ErrorMessageContext.Provider>
             </SelectedIdContext.Provider>
         </div>
