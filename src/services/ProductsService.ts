@@ -3,7 +3,8 @@ import axios from 'axios';
 const baseString = "https://reqres.in/api/products";
 const itemsPerPage = 5;
 
-export function getProductsPerPage(callback: Function, currentPage: number) {
+
+export function getProductsPerPage(currentPage: number, callback: Function) {
 
     axios.get(baseString, {
         params: {
@@ -14,13 +15,11 @@ export function getProductsPerPage(callback: Function, currentPage: number) {
         .then((response) => {
             const data = response.data;
             callback(data);
-            console.log(data)
-
         })
-        .catch(error => console.log(error))
+        .catch(error => error.response);
 }
 
-export function getProductById(id: number, callback: Function) {
+export function getProductById(id: number, handleResult: Function, handleError: Function) {
 
     axios.get(baseString, {
         params: {
@@ -29,8 +28,13 @@ export function getProductById(id: number, callback: Function) {
     })
         .then((response) => {
             const data = response.data;
-            callback({data: [data.data]});
+            handleResult({data: [data.data]});
 
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            if (error.response) {
+                handleError(error.response);
+                console.log(error.response)
+            }
+        })
 }
