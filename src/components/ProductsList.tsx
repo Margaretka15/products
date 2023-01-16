@@ -11,12 +11,11 @@ export interface IProduct {
 }
 
 type Props = {
-
     data: Array<IProduct>
 }
 
 function ProductsList({data}: Props) {
-    
+
     return (
         <>
             <List sx={{minHeight: "350px"}}>

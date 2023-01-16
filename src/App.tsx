@@ -33,13 +33,13 @@ function App() {
     const [selectedId, setSelectedId] = useState(0);
     const [isShowingModal, setIsShowingModal] = useState(false);
 
-    const [filter, setFilter] = useState(idFromUrl | 0);
+    const [filter, setFilter] = useState(idFromUrl ?? 0);
     const [errorMessage, setErrorMessage] = useState("");
 
     const [products, setProducts] = useState(Array<IProduct>)
     const [isLoading, setIsLoading] = useState(true);
     const [numberOfPages, setNumberOfPages] = useState(0);
-    const [currentPage, setCurrentPage] = useState(pageNumberFromURL | 1);
+    const [currentPage, setCurrentPage] = useState(pageNumberFromURL ?? 1);
 
     const selectedIdContextValue: ISelectedIDContext = {selectedId, setSelectedId, isShowingModal, setIsShowingModal};
     const errorContextValue: IError = {errorMessage, setErrorMessage};
@@ -59,12 +59,14 @@ function App() {
 
     useEffect(() => {
         getProductsPerPage(parseInt(searchParams.get("page") as string), handleData);
-    }, [searchParams.get("page")]);
+    }, [pageNumberFromURL]);
 
      useEffect(() => {
+         if(searchParams.get("id") === "0") {
+             getProductsPerPage(parseInt(searchParams.get("page") as string), handleData);
+         }
         getProductById(parseInt(searchParams.get("id") as string), handleData);
-    }, [searchParams.get("id")]);
-
+    }, [idFromUrl]);
 
 
     return (
