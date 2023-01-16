@@ -1,4 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import {ArrowForwardIosOutlined, ArrowBackIosOutlined} from '@mui/icons-material';
+import "../styles/Paginator.scss";
+
 
 type Props = {
     onClick: React.Dispatch<React.SetStateAction<number>>;
@@ -33,13 +36,16 @@ function Paginator({onClick, current, numberOfPages}: Props) {
         }
     }, [current]);
 
+    if (numberOfPages === 1)
+        return <></>
+
     return (
-        <div>
-            {!isFirst ? <div onClick={goToPrevious}>
-                previous
+        <div className="navigation">
+            {!isFirst ? <div className="navigation__arrow navigation__arrow--backward" onClick={goToPrevious}>
+                <ArrowBackIosOutlined/>
             </div> : null}
-            {!isLast ? <div onClick={goToNext}>
-                next
+            {!isLast ? <div className="navigation__arrow navigation__arrow--forward" onClick={goToNext}>
+                <ArrowForwardIosOutlined/>
             </div> : null}
         </div>
     );

@@ -1,0 +1,16 @@
+.navigation {
+  display: flex;
+  //justify-content: space-between;
+  width: 50%;
+  margin: 10px auto;
+  &__arrow {
+    &--backward {
+      margin-right: auto;
+    }
+
+    &--forward {
+      margin-left: auto;
+    }
+  }
+
+}
