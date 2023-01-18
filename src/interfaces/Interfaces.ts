@@ -7,8 +7,8 @@ export interface IProduct {
     color: string;
     pantone_value: string;
 }
+
 export interface ISelectedIDContext {
-    // setSelectedId: React.Dispatch<React.SetStateAction<number>>
     isShowingModal: boolean
     setIsShowingModal: React.Dispatch<React.SetStateAction<boolean>>
     selectedProductData: IProduct

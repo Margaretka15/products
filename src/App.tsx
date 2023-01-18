@@ -10,6 +10,7 @@ import {useLocation, useSearchParams} from "react-router-dom";
 import {IProduct, ISelectedIDContext} from "./interfaces/Interfaces";
 import ErrorMessage from './components/ErrorMessage';
 import "./styles/ProductDetailsModal.scss";
+
 export const SelectedIdContext = React.createContext<ISelectedIDContext | null>(null);
 
 function App() {
@@ -71,20 +72,11 @@ function App() {
     useEffect(() => {
         if (!searchParams.get("id")) {
             getProductsPerPage(parseInt(searchParams.get("page") as string), handleData, handleError);
-        }
-        else {
+        } else {
             getProductById(parseInt(searchParams.get("id") as string), handleIdRequest, handleError);
         }
 
     }, [idFromUrl]);
-
-    // useEffect(() => {
-    //     setSearchParams(filter ? {id: filter.toString()} : {page: "1"});
-    // }, [filter]);
-    //
-    useEffect(() => {
-        setSearchParams({page: currentPage.toString()});
-    }, [currentPage]);
 
     return (
         <div className="App">

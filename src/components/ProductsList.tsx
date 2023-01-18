@@ -23,9 +23,7 @@ function ProductsList({data}: Props) {
                     )
                 })}
             </List>
-
         </>
-
     );
 }
 
