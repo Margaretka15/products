@@ -28,10 +28,11 @@ function Product(product: IProduct) {
         ]
 
     const handleClick = () => {
-        if (!context?.isShowingModal) {
-            context?.setSelectedId(id);
+            // context?.setSelectedId(id);
             context?.setIsShowingModal(() => true);
-        }
+            context?.setSelectedProductData ({
+                id, name, year, color, pantone_value: pantoneValue
+            })
     }
     return (
         <ListItem sx={listItemStyle} onClick={handleClick}>

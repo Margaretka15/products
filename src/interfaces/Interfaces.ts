@@ -8,13 +8,9 @@ export interface IProduct {
     pantone_value: string;
 }
 export interface ISelectedIDContext {
-    selectedId: number,
-    setSelectedId: React.Dispatch<React.SetStateAction<number>>
+    // setSelectedId: React.Dispatch<React.SetStateAction<number>>
     isShowingModal: boolean
     setIsShowingModal: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-export interface IError {
-    errorMessage: string;
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>
+    selectedProductData: IProduct
+    setSelectedProductData: React.Dispatch<React.SetStateAction<IProduct>>
 }

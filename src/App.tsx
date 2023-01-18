@@ -3,12 +3,13 @@ import './App.css';
 import ProductsList from "./components/ProductsList";
 import SearchBar from "./components/SearchBar";
 import ProductDetailsModal from "./components/ProductDetailsModal";
-import {Box, CircularProgress} from "@mui/material";
+import {Box, CircularProgress,} from "@mui/material";
 import Paginator from "./components/Paginator";
 import {getProductById, getProductsPerPage} from "./services/ProductsService";
 import {useLocation, useSearchParams} from "react-router-dom";
-import {IError, IProduct, ISelectedIDContext} from "./interfaces/Interfaces";
-
+import {IProduct, ISelectedIDContext} from "./interfaces/Interfaces";
+import ErrorMessage from './components/ErrorMessage';
+import "./styles/ProductDetailsModal.scss";
 export const SelectedIdContext = React.createContext<ISelectedIDContext | null>(null);
 
 function App() {
@@ -18,7 +19,6 @@ function App() {
     const idFromUrl = parseInt(new URLSearchParams(search).get('id') as string);
     const pageNumberFromURL = parseInt(new URLSearchParams(search).get('page') as string);
 
-    const [selectedId, setSelectedId] = useState(0);
     const [isShowingModal, setIsShowingModal] = useState(false);
 
     const [filter, setFilter] = useState(idFromUrl || 0);
@@ -29,7 +29,20 @@ function App() {
     const [numberOfPages, setNumberOfPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(pageNumberFromURL || 1);
 
-    const selectedIdContextValue: ISelectedIDContext = {selectedId, setSelectedId, isShowingModal, setIsShowingModal};
+    const [selectedProductData, setSelectedProductData] = useState({
+        id: 0,
+        year: 0,
+        name: "",
+        color: "",
+        pantone_value: ""
+    });
+
+    const selectedIdContextValue: ISelectedIDContext = {
+        isShowingModal,
+        setIsShowingModal,
+        selectedProductData,
+        setSelectedProductData
+    };
 
     const handleData = (result: { total_pages: number, data: [] }) => {
         setProducts(result.data);
@@ -52,20 +65,23 @@ function App() {
     }, [currentPage, filter])
 
     useEffect(() => {
-        getProductsPerPage(parseInt(searchParams.get("page") as string), handleData);
+        getProductsPerPage(parseInt(searchParams.get("page") as string), handleData, handleError);
     }, [pageNumberFromURL]);
 
     useEffect(() => {
         if (!searchParams.get("id")) {
-            getProductsPerPage(parseInt(searchParams.get("page") as string), handleData);
+            getProductsPerPage(parseInt(searchParams.get("page") as string), handleData, handleError);
         }
-        getProductById(parseInt(searchParams.get("id") as string), handleIdRequest);
+        else {
+            getProductById(parseInt(searchParams.get("id") as string), handleIdRequest, handleError);
+        }
+
     }, [idFromUrl]);
 
-    useEffect(() => {
-        setSearchParams(filter ? {id: filter.toString()} : {page: "1"});
-    }, [filter]);
-
+    // useEffect(() => {
+    //     setSearchParams(filter ? {id: filter.toString()} : {page: "1"});
+    // }, [filter]);
+    //
     useEffect(() => {
         setSearchParams({page: currentPage.toString()});
     }, [currentPage]);
@@ -73,8 +89,10 @@ function App() {
     return (
         <div className="App">
             <SearchBar onQuery={setFilter}/>
+            {errorMessage !== "" ? <ErrorMessage message={errorMessage}/> : null}
             <SelectedIdContext.Provider value={selectedIdContextValue}>
                 <ProductDetailsModal/>
+
                 {isLoading ? <Box sx={{display: 'flex'}}>
                     <CircularProgress/>
                 </Box> : <ProductsList data={products}/>}

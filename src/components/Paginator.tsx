@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {ArrowForwardIosOutlined, ArrowBackIosOutlined} from '@mui/icons-material';
 import "../styles/Paginator.scss";
 
-
 type Props = {
     onClick: React.Dispatch<React.SetStateAction<number>>;
     current: number;

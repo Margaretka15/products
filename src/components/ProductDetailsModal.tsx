@@ -9,7 +9,6 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 400,
     backgroundColor: 'white',
-    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
@@ -19,30 +18,53 @@ function ProductDetailsModal() {
     const context = useContext(SelectedIdContext);
 
     if (!context) return null;
-    const {isShowingModal, setIsShowingModal, setSelectedId, selectedId} = context;
+    const {
+        isShowingModal,
+        setIsShowingModal,
+        setSelectedProductData,
+        selectedProductData
+    } = context;
 
     const handleClose = () => {
         setIsShowingModal(false);
-        setSelectedId(0);
+        setSelectedProductData({
+            id: 0,
+            year: 0,
+            name: "",
+            color: "",
+            pantone_value: ""
+        });
     };
 
     if (isShowingModal) {
 
         return (<Modal
             open={isShowingModal}
-            sx={style}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box>
-               <Typography>
-                   {selectedId}
-               </Typography>
+            <Box sx={style}>
+                <div>
+                    <Typography sx={{borderBottom: "1px grey solid"}}
+                                id="modal-modal-title"
+                                variant="h6"
+                                component="h2"
+                                textAlign="center">
+                        {selectedProductData.name}
+                    </Typography>
+                    <div className="product-details__color"
+                         style={{backgroundColor: selectedProductData.color}}/>
+                    <Typography variant="body1">
+                        product id: {selectedProductData.id}
+                    </Typography>
+                    <Typography variant="body1">
+                        pantone value: {selectedProductData.pantone_value}
+                    </Typography>
+                </div>
             </Box>
         </Modal>)
     } else return null;
-
 }
 
 export default ProductDetailsModal;
