@@ -1,27 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import ProductsList, {IProduct} from "./components/ProductsList";
+import ProductsList from "./components/ProductsList";
 import SearchBar from "./components/SearchBar";
 import ProductDetailsModal from "./components/ProductDetailsModal";
 import {Box, CircularProgress} from "@mui/material";
 import Paginator from "./components/Paginator";
 import {getProductById, getProductsPerPage} from "./services/ProductsService";
 import {useLocation, useSearchParams} from "react-router-dom";
-
-interface ISelectedIDContext {
-    selectedId: number,
-    setSelectedId: React.Dispatch<React.SetStateAction<number>>
-    isShowingModal: boolean
-    setIsShowingModal: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-interface IError {
-    errorMessage: string;
-    setErrorMessage: React.Dispatch<React.SetStateAction<string>>
-}
+import {IError, IProduct, ISelectedIDContext} from "./interfaces/Interfaces";
 
 export const SelectedIdContext = React.createContext<ISelectedIDContext | null>(null);
-export const ErrorMessageContext = React.createContext<IError | null>(null);
 
 function App() {
 
@@ -42,7 +30,6 @@ function App() {
     const [currentPage, setCurrentPage] = useState(pageNumberFromURL || 1);
 
     const selectedIdContextValue: ISelectedIDContext = {selectedId, setSelectedId, isShowingModal, setIsShowingModal};
-    const errorContextValue: IError = {errorMessage, setErrorMessage};
 
     const handleData = (result: { total_pages: number, data: [] }) => {
         setProducts(result.data);
@@ -52,6 +39,10 @@ function App() {
     }
     const handleIdRequest = (result: { data: [] }) => {
         handleData({total_pages: 1, data: result.data});
+    }
+
+    const handleError = (message: string) => {
+        setErrorMessage(message);
     }
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -71,19 +62,23 @@ function App() {
         getProductById(parseInt(searchParams.get("id") as string), handleIdRequest);
     }, [idFromUrl]);
 
+    useEffect(() => {
+        setSearchParams(filter ? {id: filter.toString()} : {page: "1"});
+    }, [filter]);
+
+    useEffect(() => {
+        setSearchParams({page: currentPage.toString()});
+    }, [currentPage]);
 
     return (
         <div className="App">
             <SearchBar onQuery={setFilter}/>
             <SelectedIdContext.Provider value={selectedIdContextValue}>
                 <ProductDetailsModal/>
-                <ErrorMessageContext.Provider value={errorContextValue}>
-                    {isLoading ? <Box sx={{display: 'flex'}}>
-                        <CircularProgress/>
-                    </Box> : <ProductsList data={products}/>}
-
-                    <Paginator onClick={setCurrentPage} current={currentPage} numberOfPages={numberOfPages}/>
-                </ErrorMessageContext.Provider>
+                {isLoading ? <Box sx={{display: 'flex'}}>
+                    <CircularProgress/>
+                </Box> : <ProductsList data={products}/>}
+                <Paginator onClick={setCurrentPage} current={currentPage} numberOfPages={numberOfPages}/>
             </SelectedIdContext.Provider>
         </div>
     );

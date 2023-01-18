@@ -1,14 +1,7 @@
 import React from 'react';
 import Product from "./Product";
 import {List} from "@mui/material";
-
-export interface IProduct {
-    id: number;
-    year: number;
-    name: string;
-    color: string;
-    pantone_value: string;
-}
+import {IProduct} from "../interfaces/Interfaces";
 
 type Props = {
     data: Array<IProduct>

@@ -8,29 +8,28 @@ const style = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
-    bgcolor: 'background.paper',
+    backgroundColor: 'white',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
 
-
 function ProductDetailsModal() {
 
     const context = useContext(SelectedIdContext);
 
+    if (!context) return null;
+    const {isShowingModal, setIsShowingModal, setSelectedId, selectedId} = context;
+
     const handleClose = () => {
-        context?.setIsShowingModal(false);
-        context?.setSelectedId(0);
+        setIsShowingModal(false);
+        setSelectedId(0);
     };
 
-    if (context?.isShowingModal) {
-        // return (
-        //     <div>{context?.selectedId}
-        //         <div onClick={handleClick}>close</div>
-        //     </div>);
+    if (isShowingModal) {
+
         return (<Modal
-            open={context.isShowingModal}
+            open={isShowingModal}
             sx={style}
             onClose={handleClose}
             aria-labelledby="modal-modal-title"
@@ -38,7 +37,7 @@ function ProductDetailsModal() {
         >
             <Box>
                <Typography>
-                   {context?.selectedId}
+                   {selectedId}
                </Typography>
             </Box>
         </Modal>)

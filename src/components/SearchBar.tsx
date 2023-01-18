@@ -26,6 +26,7 @@ function SearchBar({onQuery}: Props) {
                 type="text"
                 autoComplete="current-password"
                 value={query}
+                sx={{backgroundColor: "white"}}
                 onChange={(e) => handleChange(e)}
             />
         </form>
