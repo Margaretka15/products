@@ -11,7 +11,7 @@ function ProductsList({data}: Props) {
 
     return (
         <>
-            <List sx={{minHeight: "350px"}}>
+            <List sx={{minHeight: "400px"}}>
                 {data.map((p: IProduct) => {
                     return (
                         <Product id={p.id}

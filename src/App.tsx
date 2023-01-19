@@ -63,20 +63,17 @@ function App() {
 
     useEffect(() => {
         setSearchParams(filter ? {id: filter.toString()} : {page: currentPage.toString()})
+        console.log("current page i filter")
     }, [currentPage, filter])
 
-    useEffect(() => {
-        getProductsPerPage(parseInt(searchParams.get("page") as string), handleData, handleError);
-    }, [pageNumberFromURL]);
 
     useEffect(() => {
-        if (!searchParams.get("id")) {
-            getProductsPerPage(parseInt(searchParams.get("page") as string), handleData, handleError);
+        if (!idFromUrl) {
+            getProductsPerPage(pageNumberFromURL, handleData, handleError);
         } else {
-            getProductById(parseInt(searchParams.get("id") as string), handleIdRequest, handleError);
+            getProductById(idFromUrl, handleIdRequest, handleError);
         }
-
-    }, [idFromUrl]);
+    }, [pageNumberFromURL, idFromUrl]);
 
     return (
         <div className="App">
@@ -88,7 +85,7 @@ function App() {
                 {isLoading ? <Box sx={{display: 'flex'}}>
                     <CircularProgress/>
                 </Box> : <ProductsList data={products}/>}
-                <Paginator onClick={setCurrentPage} current={currentPage} numberOfPages={numberOfPages}/>
+                <Paginator setCurrent={setCurrentPage} current={currentPage} numberOfPages={numberOfPages}/>
             </SelectedIdContext.Provider>
         </div>
     );

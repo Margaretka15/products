@@ -3,24 +3,24 @@ import {ArrowForwardIosOutlined, ArrowBackIosOutlined} from '@mui/icons-material
 import "../styles/Paginator.scss";
 
 type Props = {
-    onClick: React.Dispatch<React.SetStateAction<number>>;
+    setCurrent: React.Dispatch<React.SetStateAction<number>>;
     current: number;
     numberOfPages: number;
 }
 
-function Paginator({onClick, current, numberOfPages}: Props) {
+function Paginator({setCurrent, current, numberOfPages}: Props) {
 
     const [isFirst, setIsFirst] = useState(true);
     const [isLast, setIsLast] = useState(false);
 
     const goToPrevious = () => {
         if (current > 1) {
-            onClick((current) => (current - 1));
+            setCurrent((current) => (current - 1));
         }
     }
     const goToNext = () => {
         if (current < numberOfPages) {
-            onClick((current) => (current + 1));
+            setCurrent((current) => (current + 1));
         }
     }
     // odpowiednie wyświetlanie strzałek

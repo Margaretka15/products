@@ -3,13 +3,19 @@
   //justify-content: space-between;
   width: 50%;
   margin: 10px auto;
+  transition: all .2s ease-in;
+
   &__arrow {
+    cursor: pointer;
     &--backward {
       margin-right: auto;
     }
 
     &--forward {
       margin-left: auto;
+    }
+    &:hover {
+      transform: translateY(-2px);
     }
   }
 
