@@ -25,7 +25,7 @@ function App() {
     const [filter, setFilter] = useState(idFromUrl || 0);
     const [errorMessage, setErrorMessage] = useState("");
 
-    const [products, setProducts] = useState(Array<IProduct>)
+    const [products, setProducts] = useState(Array<IProduct>);
     const [isLoading, setIsLoading] = useState(true);
     const [numberOfPages, setNumberOfPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(pageNumberFromURL || 1);
@@ -63,7 +63,6 @@ function App() {
 
     useEffect(() => {
         setSearchParams(filter ? {id: filter.toString()} : {page: currentPage.toString()})
-        console.log("current page i filter")
     }, [currentPage, filter])
 
 
@@ -81,12 +80,11 @@ function App() {
             {errorMessage !== "" ? <ErrorMessage message={errorMessage}/> : null}
             <SelectedIdContext.Provider value={selectedIdContextValue}>
                 <ProductDetailsModal/>
-
                 {isLoading ? <Box sx={{display: 'flex'}}>
                     <CircularProgress/>
                 </Box> : <ProductsList data={products}/>}
-                <Paginator setCurrent={setCurrentPage} current={currentPage} numberOfPages={numberOfPages}/>
             </SelectedIdContext.Provider>
+            <Paginator setCurrent={setCurrentPage} current={currentPage} numberOfPages={numberOfPages}/>
         </div>
     );
 }

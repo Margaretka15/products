@@ -10,7 +10,7 @@ const style = {
     width: 400,
     backgroundColor: 'white',
     boxShadow: 24,
-    p: 4,
+    p: 4
 };
 
 function ProductDetailsModal() {

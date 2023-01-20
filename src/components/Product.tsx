@@ -5,6 +5,7 @@ import {IProduct} from "../interfaces/Interfaces";
 
 
 function Product(product: IProduct) {
+
     const context = useContext(SelectedIdContext);
 
     const {id, name, year, color, pantone_value: pantoneValue} = product;
@@ -15,7 +16,6 @@ function Product(product: IProduct) {
             transition: 'all .2s',
             marginBottom: '8px',
             borderRadius: '4px',
-            // boxShadow: 1
         },
             {
                 '&:hover':

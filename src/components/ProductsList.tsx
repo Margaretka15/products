@@ -8,7 +8,6 @@ type Props = {
 }
 
 function ProductsList({data}: Props) {
-
     return (
         <>
             <List sx={{minHeight: "400px"}}>

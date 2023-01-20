@@ -27,10 +27,10 @@ function SearchBar({onQuery}: Props) {
                 autoComplete="current-password"
                 value={query}
                 sx={{backgroundColor: "white", marginBottom: "25px"}}
-                onChange={(e) => handleChange(e)}
+                onChange={handleChange}
             />
         </form>
     );
 }
 
-export default SearchBar;
+export default React.memo(SearchBar);
